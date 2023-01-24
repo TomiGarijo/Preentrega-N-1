@@ -88,9 +88,3 @@ while (!exit) {
         alert("Son"+" "+opcion+" "+"cuotas de: "+valor+" "+"pesos"+" con "+interes+"% "+" de "+" interes");
     }
 }
-
-
-
-
-
-
