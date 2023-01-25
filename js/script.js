@@ -85,6 +85,6 @@ while (!exit) {
     if (interes==0) {
         alert("Son"+" "+opcion+" "+"cuotas de: "+valor+" "+"pesos");
     } else {
-        alert("Son"+" "+opcion+" "+"cuotas de: "+valor+" "+"pesos"+" con "+interes+"% "+" de "+" interes");
+        alert("Son"+" "+opcion+" "+"cuotas de: "+valor+" "+"pesos"+" con "+interes+"% "+"de"+" interes");
     }
 }
