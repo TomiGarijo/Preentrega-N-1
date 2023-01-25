@@ -27,11 +27,11 @@ let exit=false;
 while (!exit) {
     alert("Calculadora de Cuotas");
     let num=parseInt(prompt("Ingrese el presupuesto: "));
+    alert("¿Cuotas con o sin intereses? 0=Sin interes - Otro valor=Con interes");
+    let interes=parseInt(prompt("Ingrese la cantidad de intereses: "));
     let opcion=parseInt(prompt("Ingrese la cantidad de cuotas: "+"3"+", "+"6"+", "+"9"+", "+"12"+", "+"18"+" o "+"24"+" cuotas"));
     let valor=0;
-    alert("¿Cuotas con o sin intereses?");
-    let interes=parseInt(prompt("Ingrese la cantidad de intereses: "));
-
+    
     if (interes==0) {
         switch (opcion) {
             case 3:
@@ -85,6 +85,6 @@ while (!exit) {
     if (interes==0) {
         alert("Son"+" "+opcion+" "+"cuotas de: "+valor+" "+"pesos");
     } else {
-        alert("Son"+" "+opcion+" "+"cuotas de: "+valor+" "+"pesos"+" con "+interes+"% "+"de"+" interes");
+        alert("Son"+" "+opcion+" "+"cuotas de: "+valor+" "+"pesos"+" con "+interes+"% "+" de "+" interes");
     }
 }
