@@ -82,9 +82,11 @@ while (!exit) {
         }
     }
     
-    if (interes==0) {
+    if (interes==0 && (opcion==3 || opcion==6 || opcion==9 || opcion==12 || opcion==18 || opcion==24)) {
         alert("Son"+" "+opcion+" "+"cuotas de: "+valor+" "+"pesos");
+    } else if (interes>0 && (opcion==3 || opcion==6 || opcion==9 || opcion==12 || opcion==18 || opcion==24)) {
+        alert("Son"+" "+opcion+" "+"cuotas de: "+valor+" "+"pesos"+" con "+interes+"%"+" de "+"interes");
     } else {
-        alert("Son"+" "+opcion+" "+"cuotas de: "+valor+" "+"pesos"+" con "+interes+"% "+" de "+" interes");
+        alert("Reiniciando...")
     }
 }
