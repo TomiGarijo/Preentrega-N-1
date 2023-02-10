@@ -1,92 +1,79 @@
-function tres_cuotas (x) {
-    return x/3;
+//Defino Variables y Carrito de productos (array) vacio.
+let carrito=[];
+let bool=true;
+let total=0;
+
+//Metodo de busqueda de array y agregar productos al carrito vacio con arrow function.
+function agregarAlCarrito(producto) {
+    carrito.push(listaDeProductos.find((el)=> el.nombre===producto))
+    console.log (carrito)
+} 
+
+//Metodo de quitar elementos del carrito (.find busca el producto, si es true el .indexof devuelve un valor distinto a -1. El .splice elimina el objeto tomando como posicion el valor devuelto por el .indexOf).
+function eliminarDelCarrito(producto) {
+    let index=carrito.indexOf(carrito.find((el)=>el.nombre===producto))
+    if (index!=-1) {
+        carrito.splice(index,1)
+    }
+    console.log(carrito)
 }
 
-function seis_cuotas (x) {
-    return x/6;
+//Funcion que permite sumar el precio total del carrito final.
+function precioTotal() {
+    for (const el of carrito) {
+        total+=el.precio
+    }
 }
 
-function nueve_cuotas (x) {
-    return x/9;
-}
+//Armo lista de productos con array y objetos
+const listaDeProductos = [
+    { id: 1, nombre: "manzana", precio: 50, tipo: "frutas"},
+    { id: 2, nombre: "banana", precio: 110, tipo: "frutas"},
+    { id: 3, nombre: "naranja", precio: 30, tipo: "frutas"},
+    { id: 4, nombre: "mandarina", precio: 60, tipo: "frutas"},
+    { id: 5, nombre: "lechuga", precio: 200, tipo: "verduras"},
+    { id: 6, nombre: "tomate", precio: 50, tipo: "verduras"},
+    { id: 7, nombre: "apio", precio: 70, tipo: "verduras"},
+    { id: 8, nombre: "albaca", precio: 65, tipo: "verduras"},
+    { id: 9, nombre: "anana", precio: 335, tipo: "frutas"},
+    { id: 10, nombre: "cebolla", precio: 15, tipo: "verduras"},
+    { id: 11, nombre: "papa", precio: 10, tipo: "verduras"},
+    { id: 12, nombre: "batata", precio: 25, tipo: "verduras"},
+    { id: 13, nombre: "melon", precio: 350, tipo: "frutas"},
+    { id: 14, nombre: "sandia", precio: 545, tipo: "frutas"},
+    { id: 15, nombre: "kiwi", precio: 95, tipo: "frutas"},
+    { id: 16, nombre: "zapallo", precio: 90, tipo: "verduras"},
+];
 
-function doce_cuotas (x) {
-    return x/12;
-}
+//Comienzo de interaccion con el usuario.
+alert("BIENVENIDO A VERDULERIA CODERHOUSE (Tenemos verduras y frutas)");
 
-function dieciocho_cuotas (x) {
-    return x/18;
-}
-
-function veinticuatro_cuotas (x) {
-    return x/24;
-}
-
-let exit=false;
-
-while (!exit) {
-    alert("Calculadora de Cuotas");
-    let num=parseInt(prompt("Ingrese el presupuesto: "));
-    alert("¿Cuotas con o sin intereses? 0=Sin interes - Otro valor=Con interes");
-    let interes=parseInt(prompt("Ingrese la cantidad de intereses: "));
-    let opcion=parseInt(prompt("Ingrese la cantidad de cuotas: "+"3"+", "+"6"+", "+"9"+", "+"12"+", "+"18"+" o "+"24"+" cuotas"));
-    let valor=0;
-    
-    if (interes==0) {
-        switch (opcion) {
-            case 3:
-                valor=tres_cuotas(num);
-                break;
-            case 6:
-                valor=seis_cuotas(num);
-                break;
-            case 9:
-                valor=nueve_cuotas(num);
-                break;
-            case 12:
-                valor=doce_cuotas(num);
-                break;
-            case 18:
-                valor=dieciocho_cuotas(num);
-                break;
-            case 24:
-                valor=veinticuatro_cuotas(num);
-                break;
-            default:
-                alert("Solo 3, 6, 9, 12, 18 y 24 cuotas")
-                break;
-        }
+//Ciclos while con booleano de salida que permite agregar objetos al carrito.
+while(bool) {
+    agregarAlCarrito(producto=prompt("¿Que producto necesita agregar al carrito?").toLocaleLowerCase());
+    if (prompt("¿Quiere agregar otro producto? (SI o NO)").toUpperCase()=="SI") {
+        bool=true;
     } else {
-        switch (opcion) {
-            case 3:
-                valor=tres_cuotas(num)+tres_cuotas(num)*interes/100;
-                break;
-            case 6:
-                valor=seis_cuotas(num)+seis_cuotas(num)*interes/100;
-                break;
-            case 9:
-                valor=nueve_cuotas(num)+nueve_cuotas(num)*interes/100;
-                break;
-            case 12:
-                valor=doce_cuotas(num)+doce_cuotas(num)*interes/100;
-                break;
-            case 18:
-                valor=dieciocho_cuotas(num)+dieciocho_cuotas(num)*interes/100;
-                break;
-            case 24:
-                valor=veinticuatro_cuotas(num)+veinticuatro_cuotas(num)*interes/100;
-                break;
-            default:
-                alert("Solo 3, 6, 9, 12, 18 y 24 cuotas")
-                break;
+        bool=false;
+    }
+}
+
+//Permite eliminar objetos del carrito. Reseteo valor bool a true.
+if (opcion=prompt("¿Quiere eliminar productos? (SI o NO)").toUpperCase()=="SI") {
+    bool=true;
+    while(bool) {
+        eliminarDelCarrito(prompt`Elimine el producto: ${producto.toLocaleLowerCase()}`)
+        if (prompt("¿Quiere eliminar otro producto? (SI o NO)").toUpperCase()==="SI") {
+            bool=true;
+        } else {
+            bool=false;
+            precioTotal();
+            alert(`El precio total es: ${total} pesos`);
+            alert("Gracias por comprar en VERDULERIA CODERHOUSE - Su pedido llega en 48hs");
         }
     }
-    
-    if (interes==0 && (opcion==3 || opcion==6 || opcion==9 || opcion==12 || opcion==18 || opcion==24)) {
-        alert("Son"+" "+opcion+" "+"cuotas de: "+valor+" "+"pesos");
-    } else if (interes>0 && (opcion==3 || opcion==6 || opcion==9 || opcion==12 || opcion==18 || opcion==24)) {
-        alert("Son"+" "+opcion+" "+"cuotas de: "+valor+" "+"pesos"+" con "+interes+"%"+" de "+"interes");
-    } else {
-        alert("Reiniciando...")
-    }
+} else {
+    precioTotal();
+    alert(`El precio total es: ${total} pesos`);
+    alert("Gracias por comprar en VERDULERIA CODERHOUSE - Su pedido llega en 48hs");
 }
