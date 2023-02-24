@@ -22,7 +22,7 @@ class Producto {
 
 // Declaro funciones a utilizar
 function agregarAlCarrito(producto) {
-  let existente = carrito.find(el => el.id === producto.id);
+  let existente = carrito.find((el) => el.id === producto.id);
   if (existente) {
     existente.agregar();
   } else {
