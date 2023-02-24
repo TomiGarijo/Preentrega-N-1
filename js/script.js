@@ -22,28 +22,27 @@ class Producto {
 
 // Declaro funciones a utilizar
 function agregarAlCarrito(producto) {
-  let existente = carrito.find((el) => el.id === producto.id);
-  if (existente) {
-    existente.agregar();
-  } else {
-    let nuevoProducto = new Producto(producto);
-    carrito.push(nuevoProducto);
-  }
-
-  localStorage.setItem("carritoEnStorage", JSON.stringify(carrito))
-  actualizarCarrito();
+    let existente = carrito.find(el => el.id === producto.id);
+    if (existente) {
+      existente.agregar();
+    } else {
+      let nuevoProducto = new Producto(producto);
+      carrito.push(nuevoProducto);
+    }
+    localStorage.setItem("carritoEnStorage", JSON.stringify(carrito))
+    actualizarCarrito();
 }
 
 function eliminarDelCarrito(producto) {
-  let index = carrito.indexOf(carrito.find(el => el.id === producto.id));
-  if (carrito[index].cantidad > 1) {
-    carrito[index].quitar();
-  } else {
-    carrito.splice(index, 1);
-  }
-  
-  localStorage.setItem("carritoEnStorage", JSON.stringify(carrito))
-  actualizarCarrito();
+    let index = carrito.indexOf(carrito.find(el => el.id === producto.id));
+    if (carrito[index].cantidad > 1) {
+      carrito[index].quitar();
+    } else {
+      carrito.splice(index, 1);
+    }
+    
+    localStorage.setItem("carritoEnStorage", JSON.stringify(carrito))
+    actualizarCarrito();
 }
 
 function crearCardProductosHTML(array) {
@@ -123,6 +122,17 @@ function actualizarCarrito() {
         <button id="vaciarCarrito" onclick="vaciarCarrito()" class="btn btn-dark">Vaciar Carrito</button>`
 }
 
+function obtenerPrecioTotal (array) {
+    return array.reduce((total, elemento) => total + elemento.precio * elemento.cantidad, 0);
+}
+
+function vaciarCarrito () {
+    carrito = [];
+    localStorage.removeItem("carritoEnStorage");
+    document.getElementById("carrito-container").innerHTML="";
+    document.getElementById("acciones-id").innerHTML="";
+}
+
 function chequearCarritoEnStorage() {
     let contenidoEnStorage = JSON.parse(localStorage.getItem("carritoEnStorage"));
     if (contenidoEnStorage) {
@@ -134,17 +144,6 @@ function chequearCarritoEnStorage() {
         actualizarCarrito();
         return array;
     }
-}
-
-function obtenerPrecioTotal (array) {
-    return array.reduce((total, elemento) => total + elemento.precio * elemento.cantidad, 0);
-}
-
-function vaciarCarrito () {
-    carrito = [];
-    localStorage.removeItem("carritoEnStorage");
-    document.getElementById("carrito-container").innerHTML="";
-    document.getElementById("acciones-id").innerHTML="";
 }
 
 //Carrito de productos
@@ -167,8 +166,8 @@ const listaVerduleria = [
     { id: 16, nombre: "zapallo", precio: 90, tipo: "verduras", img:"./media/zapallo.jpg"},
 ];
 
-//Ejecuto la funcion que imprime las cards en el HTML
 document.addEventListener('DOMContentLoaded', function () {
+  //Ejecuto la funcion que imprime las cards en el HTML
   crearCardProductosHTML(listaVerduleria);
 });
 
