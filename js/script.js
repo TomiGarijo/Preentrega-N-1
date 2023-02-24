@@ -1,79 +1,175 @@
-//Defino Variables y Carrito de productos (array) vacio.
-let carrito=[];
-let bool=true;
-let total=0;
+let carrito = [];
 
-//Metodo de busqueda de array y agregar productos al carrito vacio con arrow function.
+//Creo un array donde ingresar los productos
+class Producto {
+  constructor(producto) {
+    this.id = producto.id;
+    this.nombre = producto.nombre;
+    this.tipo = producto.tipo;
+    this.precio = producto.precio;
+    this.img = producto.img;
+    this.cantidad = producto.cantidad ?? 1;
+  }
+
+  agregar() {
+    this.cantidad++;
+  }
+
+  quitar() {
+    this.cantidad--;
+  }
+}
+
+// Declaro funciones a utilizar
 function agregarAlCarrito(producto) {
-    carrito.push(listaDeProductos.find((el)=> el.nombre===producto))
-    console.log (carrito)
-} 
+  let existente = carrito.find(el => el.id === producto.id);
+  if (existente) {
+    existente.agregar();
+  } else {
+    let nuevoProducto = new Producto(producto);
+    carrito.push(nuevoProducto);
+  }
 
-//Metodo de quitar elementos del carrito (.find busca el producto, si es true el .indexof devuelve un valor distinto a -1. El .splice elimina el objeto tomando como posicion el valor devuelto por el .indexOf).
+  localStorage.setItem("carritoEnStorage", JSON.stringify(carrito))
+  actualizarCarrito();
+}
+
 function eliminarDelCarrito(producto) {
-    let index=carrito.indexOf(carrito.find((el)=>el.nombre===producto))
-    if (index!=-1) {
-        carrito.splice(index,1)
-    }
-    console.log(carrito)
+  let index = carrito.indexOf(carrito.find(el => el.id === producto.id));
+  if (carrito[index].cantidad > 1) {
+    carrito[index].quitar();
+  } else {
+    carrito.splice(index, 1);
+  }
+  
+  localStorage.setItem("carritoEnStorage", JSON.stringify(carrito))
+  actualizarCarrito();
 }
 
-//Funcion que permite sumar el precio total del carrito final.
-function precioTotal() {
-    for (const el of carrito) {
-        total+=el.precio
+function crearCardProductosHTML(array) {
+  let contenedor = document.getElementById('main-container_id');
+  contenedor.innerHTML = '';
+
+  for (const producto of array) {
+    let card = document.createElement('div');
+    card.innerHTML = `       
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top imagen-verduleria" src=${producto.img} alt="Card image cap" />
+            <div class="card-body">
+                <h3 class="card-title">${producto.nombre}</h3>
+                <h5 class="card-title">${producto.tipo}</h5>
+                <p class="card-text">$${producto.precio}</p>
+                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                    <button id="agregar${producto.tipo}${producto.id}" type="button" class="btn btn-dark"> Agregar </button>
+                </div>
+            </div>
+        </div>`;
+    contenedor.appendChild(card);
+    let boton = document.getElementById(
+      `agregar${producto.tipo}${producto.id}`
+    );
+    boton.addEventListener('click', () => agregarAlCarrito(producto));
+  }
+}
+
+function actualizarCarrito() {
+    let contenedor = document.getElementById('carrito-container');
+    
+    if (carrito.length === 0) {
+        contenedor.innerHTML = "";
+        return;
+    }
+
+    contenedor.innerHTML = `
+        <table id="tabla-carrito" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Precio Total</th>
+                    <th>Accion</th>
+                </tr>
+
+                <tbody id="bodyTabla">
+
+                </tbody>
+            </thead>
+        </table>`;
+
+    let bodyTabla = document.getElementById('bodyTabla');
+    for (const verduleria of carrito) {
+    let datos = document.createElement('tr');
+    datos.innerHTML = `
+        <td>${verduleria.nombre}</td>
+        <td>${verduleria.cantidad}</td>
+        <td>${verduleria.precio}</td>
+        <td>${verduleria.precio * verduleria.cantidad}</td>
+        <td><button id="eliminar${
+            verduleria.id
+        }" class="btn btn-red">Eliminar</button></td>
+        `;
+
+    bodyTabla.appendChild(datos);
+
+    let boton = document.getElementById(`eliminar${verduleria.id}`);
+    boton.addEventListener('click', () => eliminarDelCarrito(verduleria));
+    }
+
+    let precioTotal = obtenerPrecioTotal(carrito);
+    let accionesCarrito = document.getElementById("acciones-id");
+    accionesCarrito.innerHTML = `
+        <h5>PrecioTotal: $${precioTotal}</h5></br>
+        <button id="vaciarCarrito" onclick="vaciarCarrito()" class="btn btn-dark">Vaciar Carrito</button>`
+}
+
+function chequearCarritoEnStorage() {
+    let contenidoEnStorage = JSON.parse(localStorage.getItem("carritoEnStorage"));
+    if (contenidoEnStorage) {
+        let array = [];
+        for (const objeto of contenidoEnStorage) {
+            let recuproducto = new Producto(objeto);
+            array.push(recuproducto);
+        }
+        actualizarCarrito();
+        return array;
     }
 }
 
-//Armo lista de productos con array y objetos
-const listaDeProductos = [
-    { id: 1, nombre: "manzana", precio: 50, tipo: "frutas"},
-    { id: 2, nombre: "banana", precio: 110, tipo: "frutas"},
-    { id: 3, nombre: "naranja", precio: 30, tipo: "frutas"},
-    { id: 4, nombre: "mandarina", precio: 60, tipo: "frutas"},
-    { id: 5, nombre: "lechuga", precio: 200, tipo: "verduras"},
-    { id: 6, nombre: "tomate", precio: 50, tipo: "verduras"},
-    { id: 7, nombre: "apio", precio: 70, tipo: "verduras"},
-    { id: 8, nombre: "albaca", precio: 65, tipo: "verduras"},
-    { id: 9, nombre: "anana", precio: 335, tipo: "frutas"},
-    { id: 10, nombre: "cebolla", precio: 15, tipo: "verduras"},
-    { id: 11, nombre: "papa", precio: 10, tipo: "verduras"},
-    { id: 12, nombre: "batata", precio: 25, tipo: "verduras"},
-    { id: 13, nombre: "melon", precio: 350, tipo: "frutas"},
-    { id: 14, nombre: "sandia", precio: 545, tipo: "frutas"},
-    { id: 15, nombre: "kiwi", precio: 95, tipo: "frutas"},
-    { id: 16, nombre: "zapallo", precio: 90, tipo: "verduras"},
+function obtenerPrecioTotal (array) {
+    return array.reduce((total, elemento) => total + elemento.precio * elemento.cantidad, 0);
+}
+
+function vaciarCarrito () {
+    carrito = [];
+    localStorage.removeItem("carritoEnStorage");
+    document.getElementById("carrito-container").innerHTML="";
+    document.getElementById("acciones-id").innerHTML="";
+}
+
+//Carrito de productos
+const listaVerduleria = [
+    { id: 1, nombre: "manzana", precio: 50, tipo: "frutas", img:"./media/manzana.jpg"},
+    { id: 2, nombre: "banana", precio: 110, tipo: "frutas", img:"./media/banana.jpg" },
+    { id: 3, nombre: "naranja", precio: 30, tipo: "frutas", img:"./media/naranja.jpg"},
+    { id: 4, nombre: "mandarina", precio: 60, tipo: "frutas", img:"./media/mandarina.jpg"},
+    { id: 5, nombre: "lechuga", precio: 200, tipo: "verduras", img:"./media/lechuga.jpg"},
+    { id: 6, nombre: "tomate", precio: 50, tipo: "verduras", img:"./media/tomate.jpg"},
+    { id: 7, nombre: "apio", precio: 70, tipo: "verduras", img:"./media/apio.jpg"},
+    { id: 8, nombre: "albahaca", precio: 65, tipo: "verduras", img:"./media/albahaca.jpg"},
+    { id: 9, nombre: "anana", precio: 335, tipo: "frutas", img:"./media/anana.jpg"},
+    { id: 10, nombre: "cebolla", precio: 15, tipo: "verduras", img:"./media/cebolla.jpg"},
+    { id: 11, nombre: "papa", precio: 10, tipo: "verduras", img:"./media/papa.jpg"},
+    { id: 12, nombre: "batata", precio: 25, tipo: "verduras", img:"./media/batata.jpg"},
+    { id: 13, nombre: "melon", precio: 350, tipo: "frutas", img:"./media/melon.jpg"},
+    { id: 14, nombre: "sandia", precio: 545, tipo: "frutas", img:"./media/sandia.jpg"},
+    { id: 15, nombre: "kiwi", precio: 95, tipo: "frutas", img:"./media/kiwi.jpg"},
+    { id: 16, nombre: "zapallo", precio: 90, tipo: "verduras", img:"./media/zapallo.jpg"},
 ];
 
-//Comienzo de interaccion con el usuario.
-alert("BIENVENIDO A VERDULERIA CODERHOUSE (Tenemos verduras y frutas)");
+//Ejecuto la funcion que imprime las cards en el HTML
+document.addEventListener('DOMContentLoaded', function () {
+  crearCardProductosHTML(listaVerduleria);
+});
 
-//Ciclos while con booleano de salida que permite agregar objetos al carrito.
-while(bool) {
-    agregarAlCarrito(producto=prompt("¿Que producto necesita agregar al carrito?").toLocaleLowerCase());
-    if (prompt("¿Quiere agregar otro producto? (SI o NO)").toUpperCase()=="SI") {
-        bool=true;
-    } else {
-        bool=false;
-    }
-}
-
-//Permite eliminar objetos del carrito. Reseteo valor bool a true.
-if (opcion=prompt("¿Quiere eliminar productos? (SI o NO)").toUpperCase()=="SI") {
-    bool=true;
-    while(bool) {
-        eliminarDelCarrito(prompt`Elimine el producto: ${producto.toLocaleLowerCase()}`)
-        if (prompt("¿Quiere eliminar otro producto? (SI o NO)").toUpperCase()==="SI") {
-            bool=true;
-        } else {
-            bool=false;
-            precioTotal();
-            alert(`El precio total es: ${total} pesos`);
-            alert("Gracias por comprar en VERDULERIA CODERHOUSE - Su pedido llega en 48hs");
-        }
-    }
-} else {
-    precioTotal();
-    alert(`El precio total es: ${total} pesos`);
-    alert("Gracias por comprar en VERDULERIA CODERHOUSE - Su pedido llega en 48hs");
-}
+carrito = chequearCarritoEnStorage();
