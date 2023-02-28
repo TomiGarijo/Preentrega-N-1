@@ -1,6 +1,7 @@
+//Creo array vacio
 let carrito = [];
 
-//Creo un array donde ingresar los productos
+//Creo una clase donde ingresar los productos
 class Producto {
     constructor(producto) {
         this.id = producto.id;
@@ -21,6 +22,8 @@ class Producto {
 }
 
 // Declaro funciones a utilizar
+
+//Funcion que permite agregar al carrito un nuevo producto mediante el ID.
 function agregarAlCarrito(producto) {
     let existente = carrito.find(el => el.id === producto.id);
     if (existente) {
@@ -33,6 +36,7 @@ function agregarAlCarrito(producto) {
     actualizarCarrito();
 }
 
+//Funcion que permite eliminar un producto del array vacio "carrito"
 function eliminarDelCarrito(producto) {
     let index = carrito.indexOf(carrito.find(el => el.id === producto.id));
     if (carrito[index].cantidad > 1) {
@@ -45,6 +49,7 @@ function eliminarDelCarrito(producto) {
     actualizarCarrito();
 }
 
+//Funcion que crear las cards de productos en HTML mediante JS.
 function crearCardProductosHTML(array) {
     let contenedor = document.getElementById('main-container_id');
     contenedor.innerHTML = '';
@@ -71,6 +76,7 @@ function crearCardProductosHTML(array) {
     }
 }
 
+//Funcion que actualiza la lista del carrito.
 function actualizarCarrito() {
     let contenedor = document.getElementById('carrito-container');
 
@@ -122,12 +128,15 @@ function actualizarCarrito() {
             <button id="vaciarCarrito" onclick="vaciarCarrito()" class="btn btn-dark">Vaciar Carrito</button>`;
     }
 
+
+//Funcion que calcula el total del valor tomado en la variables precio.
 function obtenerPrecioTotal(array) {
   return array.reduce(
     (total, elemento) => total + elemento.precio * elemento.cantidad,0
   );
 }
 
+//Funcion que vacia completamente ek carrito mediante un boton.
 function vaciarCarrito() {
   carrito = [];
   localStorage.removeItem('carritoEnStorage');
@@ -135,6 +144,7 @@ function vaciarCarrito() {
   document.getElementById('acciones-id').innerHTML = '';
 }
 
+//Funcion que chequea si en el storage hay items almacenados, en caso que se encuentren se pushean en un nuevo array el cual aparece al recargar la pagina como carrito. 
 function chequearCarritoEnStorage() {
   let array = [];
   let contenidoEnStorage = JSON.parse(localStorage.getItem('carritoEnStorage'));
@@ -167,8 +177,8 @@ const listaVerduleria = [
     { id: 16, nombre: "zapallo", precio: 90, tipo: "verduras", img:"./media/zapallo.jpg"},
 ];
 
+//Ejecuto la funcion que crear los cards y la que chequea el storage.
 document.addEventListener('DOMContentLoaded', function () {
-  //Ejecuto la funcion que imprime las cards en el HTML
   crearCardProductosHTML(listaVerduleria);
   carrito = chequearCarritoEnStorage();
   actualizarCarrito();
