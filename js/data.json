@@ -1,0 +1,22 @@
+[
+    { "id": 1, "nombre": "manzana", "precio": 50, "tipo": "frutas", "img":"./media/manzana.jpg"},
+    { "id": 2, "nombre": "banana", "precio": 110, "tipo": "frutas", "img":"./media/banana.jpg" },
+    { "id": 3, "nombre": "naranja", "precio": 30, "tipo": "frutas", "img":"./media/naranja.jpg"},
+    { "id": 4, "nombre": "mandarina", "precio": 60, "tipo": "frutas", "img":"./media/mandarina.jpg"},
+    { "id": 5, "nombre": "lechuga", "precio": 200, "tipo": "verduras", "img":"./media/lechuga.jpg"},
+    { "id": 6, "nombre": "tomate", "precio": 50, "tipo": "verduras", "img":"./media/tomate.jpg"},
+    { "id": 7, "nombre": "apio", "precio": 70, "tipo": "verduras", "img":"./media/apio.jpg"},
+    { "id": 8, "nombre": "albahaca", "precio": 65, "tipo": "verduras", "img":"./media/albahaca.jpg"},
+    { "id": 9, "nombre": "anana", "precio": 335, "tipo": "frutas", "img":"./media/anana.jpg"},
+    { "id": 10, "nombre": "cebolla", "precio": 15, "tipo": "hortalizas", "img":"./media/cebolla.jpg"},
+    { "id": 11, "nombre": "papa", "precio": 10, "tipo": "hortalizas", "img":"./media/papa.jpg"},
+    { "id": 12, "nombre": "batata", "precio": 25, "tipo": "hortalizas", "img":"./media/batata.jpg"},
+    { "id": 13, "nombre": "melon", "precio": 350, "tipo": "frutas", "img":"./media/melon.jpg"},
+    { "id": 14, "nombre": "sandia", "precio": 545, "tipo": "frutas", "img":"./media/sandia.jpg"},
+    { "id": 15, "nombre": "kiwi", "precio": 95, "tipo": "frutas", "img":"./media/kiwi.jpg"},
+    { "id": 16, "nombre": "zapallo", "precio": 90, "tipo": "hortalizas", "img":"./media/zapallo.jpg"},
+    { "id": 17, "nombre": "ajo", "precio": 10, "tipo": "hortalizas", "img":"./media/ajo.png"},
+    { "id": 18, "nombre": "zanahoria", "precio": 100, "tipo": "hortalizas", "img":"./media/zanahoria.png"},
+    { "id": 19, "nombre": "remolacha", "precio": 250, "tipo": "hortalizas", "img":"./media/remolacha.png"},
+    { "id": 20, "nombre": "alcachofa", "precio": 130, "tipo": "hortalizas", "img":"./media/alcachofa.png"}
+]
